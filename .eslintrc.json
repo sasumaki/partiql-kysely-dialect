@@ -1,0 +1,17 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": "standard-with-typescript",
+    "overrides": [],
+    "parserOptions": {
+        "project": ".",
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+        "@typescript-eslint/quotes": "off",
+        "@typescript-eslint/semi": "always"
+    }
+}
