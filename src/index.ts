@@ -1,11 +1,10 @@
 import { DatabaseIntrospector, Dialect, DialectAdapter, Driver, Kysely, QueryCompiler } from "kysely"
-import { PartiQLAdapter } from "./paritql-adapter";
+import { PartiQLAdapter } from "./partiql-adapter";
 import { PartiQLDriver } from "./partiql-driver";
 import { PartiQLIntrospector } from "./partiql-introspector";
 import { PartiQLQueryCompiler } from "./partiql-query-compiler";
-
-export interface PartiQLConfig {
-  endpoint: string
+import { DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
+export interface PartiQLConfig extends DynamoDBClientConfig {
 }
 export class PartiQLDialect implements Dialect {
   #config: PartiQLConfig;

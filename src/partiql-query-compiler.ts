@@ -1,4 +1,4 @@
-import { DefaultQueryCompiler, InsertQueryNode, OperationNode, OperatorNode, ParensNode, PrimitiveValueListNode, QueryNode, RawNode, ValueNode, ValuesNode } from "kysely"
+import { DefaultQueryCompiler, InsertQueryNode, OperationNode, OperatorNode, ParensNode, PrimitiveValueListNode, QueryNode, RawNode, SelectQueryNode, ValueNode, ValuesNode } from "kysely"
 
 const ID_WRAP_REGEX = /"/g
 
@@ -18,6 +18,7 @@ export class PartiQLQueryCompiler extends DefaultQueryCompiler {
       }
     }
   }
+
 
 
   protected override visitInsertQuery(node: InsertQueryNode): void {
@@ -61,6 +62,7 @@ export class PartiQLQueryCompiler extends DefaultQueryCompiler {
         this.append("'")
         this.append(grandFatherNode.columns?.[i].column.name ?? "")
         this.append("'")
+        this.append(":")
       }
       this.appendValue(values[i])
 
@@ -93,6 +95,6 @@ export class PartiQLQueryCompiler extends DefaultQueryCompiler {
     this.append(this.getCurrentParameterPlaceholder())
   }
   protected getCurrentParameterPlaceholder(): string {
-    return ':?'
+    return '?'
   }
 }

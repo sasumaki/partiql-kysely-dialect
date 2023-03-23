@@ -37,7 +37,7 @@ export class PartiQLDriver implements Driver {
   }
 
   async releaseConnection(connection: DatabaseConnection): Promise<void> {
-    throw new Error("Method not implemented.");
+    // noop
   }
 
   async destroy(): Promise<void> {
