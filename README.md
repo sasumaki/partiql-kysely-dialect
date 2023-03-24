@@ -27,13 +27,13 @@ const db = new Kysely<Database>({
 await db.insertInto("movies").values({
   name: "The Big Lebowski",
   stars: 5,
-});
+}).execute();
 
-const query = await db
+const result = await db
   .selectFrom("movies")
   .select("stars")
   .where("name", "=", "The Big Lebowski")
   .executeTakeFirst();
 
-// query == { stars: 5 }
+// result == { stars: 5 }
 ```
