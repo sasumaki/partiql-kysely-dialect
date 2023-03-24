@@ -38,9 +38,9 @@ export class PartiQLQueryCompiler extends DefaultQueryCompiler {
       this.append(' ')
     }
 
-    this.append('INSERT')
+    this.append('insert')
 
-    this.append(' INTO ')
+    this.append(' into ')
     this.visitNode(node.into)
 
     if (node.values) {

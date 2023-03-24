@@ -9,16 +9,22 @@ import { DynamoConnection } from "./dynamo-connection";
 export class PartiQLDriver implements Driver {
 
   #config: PartiQLConfig;
+  #connection?: DynamoConnection
   constructor(config: PartiQLConfig) {
     this.#config = config;
+    this.#connection = undefined
   }
 
   async init(): Promise<void> {
-    // noop
+    this.#connection = new DynamoConnection(this.#config)
   }
 
   async acquireConnection(): Promise<DatabaseConnection> {
-    return new DynamoConnection(this.#config);
+    if (this.#connection) {
+      return this.#connection
+    }
+    this.#connection = new DynamoConnection(this.#config)
+    return this.#connection
   }
 
   async beginTransaction(

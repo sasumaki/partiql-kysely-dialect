@@ -2,7 +2,7 @@ import { expect } from "chai"
 import { InsertResult, Kysely } from "kysely"
 import { PartiQLDialect } from "../../src"
 import { createMovieTable, createTestContainer, Database } from "./helpers"
-import { DynamoDBClient, ListTablesCommand } from "@aws-sdk/client-dynamodb"
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 
 describe("Inserts", async () => {
   let containerUrl: string;
@@ -29,7 +29,7 @@ describe("Inserts", async () => {
     }
     const query = db.insertInto("movies").values(params)
     const compiled = query.compile()
-    expect(compiled.sql).to.eq(`INSERT INTO "movies" value {'name':?, 'stars':?}`)
+    expect(compiled.sql).to.eq(`insert into "movies" value {'name':?, 'stars':?}`)
     expect(compiled.parameters).to.eql(["The Big Lebowski", 5])
 
     const insertResult = await query.executeTakeFirst()

@@ -5,7 +5,7 @@ import { PartiQLDialect } from "../../src/index"
 import { createMovieTable, createTestContainer, Database } from "./helpers"
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 
-describe("Selects", () => {
+describe("Deletes", () => {
   let containerUrl: string;
   let db: Kysely<Database>
   before(async () => {
@@ -31,29 +31,15 @@ describe("Selects", () => {
     }).execute()
   })
 
-  it("Select all", async () => {
-    const query = db.selectFrom("movies").selectAll()
-    
-    expect(query.compile().sql).to.eq(`select * from "movies"`)
+  it("Basic delete", async () => {
+    const query = db.deleteFrom("movies").where("name", "=", "The Bullet Train")
 
-    const result = await query.execute()
-    expect(result).to.eql([{
-      name: "The Big Lebowski",
-      stars: 5
-    },{
-      name: "The Bullet Train",
-      stars: 3
-    }])
-  })
-  it("Select column where condition", async () => {
-    const query = db.selectFrom("movies").select("stars").where("name", "=", "The Bullet Train")
-    const compiled = query.compile()
-    expect(compiled.sql).to.eq(`select "stars" from "movies" where "name" = ?`)
-    expect(compiled.parameters).to.eql(["The Bullet Train"])
+    expect(query.compile().sql).to.eq(`delete from "movies" where "name" = ?`)
+
+    await query.execute()
     
-    const result = await query.executeTakeFirst()
-    expect(result).to.eql({
-      stars: 3
-    })
+    const updatedResult = await db.selectFrom("movies").selectAll().where("name", "=", "The Bullet Train").executeTakeFirst()
+    expect(updatedResult).to.eq(undefined)
   })
+ 
 })
