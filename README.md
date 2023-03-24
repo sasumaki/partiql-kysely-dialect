@@ -24,7 +24,7 @@ const db = new Kysely<Database>({
   }),
 });
 
-const query = db.insertInto("movies").values({
+await db.insertInto("movies").values({
   name: "The Big Lebowski",
   stars: 5,
 });
@@ -35,5 +35,5 @@ const query = await db
   .where("name", "=", "The Big Lebowski")
   .executeTakeFirst();
 
-// { stars: 5 }
+// query == { stars: 5 }
 ```
