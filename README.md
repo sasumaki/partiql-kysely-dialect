@@ -8,14 +8,13 @@ Run kysely against dynamodb with partiql dialect. Supports basic CRUD statements
 import { Kysely } from "kysely";
 import { PartiQLDialect } from "partiql-kysely-dialect"; // not actually published (yet) :)
 
-export interface MovieTable {
-  id: Generated<string>;
+interface MovieTable {
   name: string;
   stars: number;
 }
 
 // Keys of this interface are table names.
-export interface Database {
+interface Database {
   movies: MovieTable;
 }
 
