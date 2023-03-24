@@ -1,10 +1,13 @@
 # Partiql-Kysely-Dialect
 
-### Project maturity level: meme
+### Project maturity level: **meme**
 
 Run kysely against dynamodb with partiql dialect. Supports basic CRUD statements, see documentation [here](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.statements.html).
 
 ```ts
+import { Kysely } from "kysely";
+import { PartiQLDialect } from "partiql-kysely-dialect"; // not actually published (yet) :)
+
 export interface MovieTable {
   id: Generated<string>;
   name: string;
