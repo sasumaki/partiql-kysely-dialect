@@ -2,7 +2,7 @@
 
 ### Project maturity level: **meme**
 
-Run kysely against dynamodb with partiql dialect. Supports basic CRUD statements, see documentation [here](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.statements.html).
+Run [kysely](https://github.com/koskimas/kysely) against dynamodb with partiql dialect. Supports basic CRUD statements, see documentation [here](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.statements.html).
 
 ```ts
 import { Kysely } from "kysely";
