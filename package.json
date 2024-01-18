@@ -1,5 +1,5 @@
 {
-  "name": "partiql-kysely-dialect",
+  "name": "@mindlercare/partiql-kysely-dialect",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
