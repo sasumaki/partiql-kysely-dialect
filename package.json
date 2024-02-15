@@ -1,6 +1,6 @@
 {
   "name": "partiql-kysely-dialect",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Run partiql queries to dynamodb from kysely",
   "main": "index.js",
   "scripts": {
