@@ -60,7 +60,7 @@ export class PartiQLQueryCompiler extends DefaultQueryCompiler {
      
       if(grandFatherNode && InsertQueryNode.is(grandFatherNode)){
         this.append("'")
-        this.append(grandFatherNode.columns?.[i].column.name ?? "")
+        this.append(grandFatherNode.columns?.[i]?.column?.name ?? "")
         this.append("'")
         this.append(":")
       }

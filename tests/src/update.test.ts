@@ -1,25 +1,14 @@
 
 import { expect } from "chai"
-import { Kysely } from "kysely"
-import { PartiQLDialect } from "../../src/index"
-import { createMovieTable, createTestContainer, Database } from "./helpers"
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
+import { createMovieTable, createTestContainer } from "./helpers"
+import { DBClient } from "./types"
 
 describe("Updates", () => {
-  let containerUrl: string;
-  let db: Kysely<Database>
+  let dbClient: DBClient
   before(async () => {
-    const { containerUrl: url  } = await createTestContainer()
-    containerUrl = url
-    db = new Kysely<Database>({
-      dialect: new PartiQLDialect({
-        endpoint: containerUrl
-      }),
-    })
-    const client = new DynamoDBClient({
-      endpoint: containerUrl
-    })
-    await createMovieTable(client)
+    const { db, dynamoDbClient  } = await createTestContainer()
+    dbClient = db;
+    await createMovieTable(dynamoDbClient);
     // TODO fix multi-row-insert
     await db.insertInto("movies").values({
       name: "The Big Lebowski",
@@ -32,7 +21,7 @@ describe("Updates", () => {
   })
 
   it("Basic update", async () => {
-    const query = db.updateTable("movies").set({
+    const query = dbClient.updateTable("movies").set({
       stars: 4
     }).where("name", "=", "The Bullet Train")
 
@@ -40,7 +29,7 @@ describe("Updates", () => {
 
     await query.execute()
     
-    const updatedResult = await db.selectFrom("movies").selectAll().where("name", "=", "The Bullet Train").executeTakeFirst()
+    const updatedResult = await dbClient.selectFrom("movies").selectAll().where("name", "=", "The Bullet Train").executeTakeFirst()
     expect(updatedResult).to.eql({
       name: "The Bullet Train",
       stars: 4

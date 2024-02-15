@@ -1,25 +1,14 @@
 
 import { expect } from "chai"
-import { Kysely } from "kysely"
-import { PartiQLDialect } from "../../src/index"
-import { createMovieTable, createTestContainer, Database } from "./helpers"
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
+import { createMovieTable, createTestContainer } from "./helpers"
+import { DBClient } from "./types"
 
 describe("Selects", () => {
-  let containerUrl: string;
-  let db: Kysely<Database>
+  let dbClient: DBClient
   before(async () => {
-    const { containerUrl: url  } = await createTestContainer()
-    containerUrl = url
-    db = new Kysely<Database>({
-      dialect: new PartiQLDialect({
-        endpoint: containerUrl
-      }),
-    })
-    const client = new DynamoDBClient({
-      endpoint: containerUrl
-    })
-    await createMovieTable(client)
+    const { db, dynamoDbClient  } = await createTestContainer()
+    dbClient = db;
+    await createMovieTable(dynamoDbClient)
     // TODO fix multi-row-insert
     await db.insertInto("movies").values({
       name: "The Big Lebowski",
@@ -32,7 +21,7 @@ describe("Selects", () => {
   })
 
   it("Select all", async () => {
-    const query = db.selectFrom("movies").selectAll()
+    const query = dbClient.selectFrom("movies").selectAll()
     
     expect(query.compile().sql).to.eq(`select * from "movies"`)
 
@@ -46,7 +35,7 @@ describe("Selects", () => {
     }])
   })
   it("Select column where condition", async () => {
-    const query = db.selectFrom("movies").select("stars").where("name", "=", "The Bullet Train")
+    const query = dbClient.selectFrom("movies").select("stars").where("name", "=", "The Bullet Train")
     const compiled = query.compile()
     expect(compiled.sql).to.eq(`select "stars" from "movies" where "name" = ?`)
     expect(compiled.parameters).to.eql(["The Bullet Train"])

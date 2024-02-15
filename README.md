@@ -6,7 +6,7 @@ Run [kysely](https://github.com/koskimas/kysely) against dynamodb with partiql d
 
 ```ts
 import { Kysely } from "kysely";
-import { PartiQLDialect } from "partiql-kysely-dialect"; // not actually published (yet) :)
+import { PartiQLDialect } from "partiql-kysely-dialect";
 
 interface MovieTable {
   name: string;
@@ -18,9 +18,12 @@ interface Database {
   movies: MovieTable;
 }
 
+const dynamoDbClient = DynamoDBDocument.from(new DynamoDB({})); // Create a DynamoDb client like normal
 const db = new Kysely<Database>({
   dialect: new PartiQLDialect({
-    region: "eu-north-1",
+    endpoint: dynamoDbClient.config.endpoint,
+    region: dynamoDbClient.config.region,
+    credentials: dynamoDbClient.config.credentials
   }),
 });
 
@@ -35,5 +38,6 @@ const result = await db
   .where("name", "=", "The Big Lebowski")
   .executeTakeFirst();
 
+// typeof result = { stars: number}
 // result == { stars: 5 }
 ```

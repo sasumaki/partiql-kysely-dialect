@@ -20,7 +20,7 @@ export class PartiQLDialect implements Dialect {
   createAdapter(): DialectAdapter {
     return new PartiQLAdapter()
   }
-  createIntrospector(db: Kysely<any>): DatabaseIntrospector {
+  createIntrospector(_db: Kysely<any>): DatabaseIntrospector {
     return new PartiQLIntrospector
   }
   
