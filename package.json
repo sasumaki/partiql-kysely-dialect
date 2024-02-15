@@ -1,7 +1,7 @@
 {
   "name": "partiql-kysely-dialect",
   "version": "0.0.1",
-  "description": "",
+  "description": "Run partiql queries to dynamodb from kysely",
   "main": "index.js",
   "scripts": {
     "test": "npm run test:build && npm run test:run",
@@ -31,12 +31,23 @@
     "typescript": "*"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "sasumaki",
+  "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.297.0",
     "@aws-sdk/lib-dynamodb": "^3.297.0",
     "@aws-sdk/util-dynamodb": "^3.297.0",
     "remeda": "^1.9.1"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sasumaki/partiql-kysely-dialect.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sasumaki/partiql-kysely-dialect/issues"
+  },
+  "homepage": "https://github.com/sasumaki/partiql-kysely-dialect#readme"
 }

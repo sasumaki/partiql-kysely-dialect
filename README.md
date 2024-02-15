@@ -1,6 +1,6 @@
 # Partiql-Kysely-Dialect
 
-### Project maturity level: **meme**
+### Project maturity level: **Limited** does not implement partiql completely, most likely has bugs.
 
 Run [kysely](https://github.com/koskimas/kysely) against dynamodb with partiql dialect. Supports basic CRUD statements, see documentation [here](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.statements.html).
 
