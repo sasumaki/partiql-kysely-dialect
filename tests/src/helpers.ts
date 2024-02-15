@@ -1,6 +1,8 @@
-import { DynamoDBClient, CreateTableCommand } from "@aws-sdk/client-dynamodb";
-import { Generated } from "kysely";
+import { DynamoDBClient, CreateTableCommand, DynamoDB } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
+import { Generated, Kysely } from "kysely";
 import { GenericContainer } from "testcontainers";
+import { PartiQLDialect } from "../../src";
 
 export interface PetTable {
   id: Generated<number>
@@ -33,7 +35,27 @@ logs.on("err", (line) => console.error("[Container error]:", line));
 containerUrl = `http://${container.getHost()}:${container.getMappedPort(
   dynamodbPort
 )}`;
-return { container, containerUrl }
+
+const dynamoDbClient = DynamoDBDocument.from(
+  new DynamoDB({
+    endpoint: containerUrl,
+    region: "us-east-1",
+    credentials: {
+      accessKeyId: "xxxxx",
+      secretAccessKey: "xxxxx",
+    },
+  }),
+);
+
+const db = new Kysely<Database>({
+  dialect: new PartiQLDialect({
+    endpoint: dynamoDbClient.config.endpoint,
+    region: dynamoDbClient.config.region,
+    credentials: dynamoDbClient.config.credentials
+  }),
+})
+
+return { db, dynamoDbClient }
 }
 
 const createMovieTabelCommandInput = {

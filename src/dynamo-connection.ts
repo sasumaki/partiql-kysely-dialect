@@ -1,12 +1,11 @@
 import { CompiledQuery, DatabaseConnection, QueryResult } from "kysely"
-import { DynamoDBClient, ExecuteStatementCommand, AttributeValue } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient, ExecuteStatementCommand, AttributeValue, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
 import { marshall, unmarshall }  from "@aws-sdk/util-dynamodb";
-import {toPairs} from "remeda"
 export class DynamoConnection implements DatabaseConnection {
-  #config: any;
+  #config: DynamoDBClientConfig;
   #client: DynamoDBClient;
 
-  constructor(config: any){
+  constructor(config: DynamoDBClientConfig){
     this.#config = config
     this.#client = new DynamoDBClient(this.#config)
   }
@@ -25,7 +24,7 @@ export class DynamoConnection implements DatabaseConnection {
       rows: unMarshalled as unknown as R[] // TODO: how to type?
     }
   }
-  streamQuery<R>(compiledQuery: CompiledQuery<unknown>, chunkSize?: number | undefined): AsyncIterableIterator<QueryResult<R>> {
+  streamQuery<R>(_compiledQuery: CompiledQuery<unknown>, _chunkSize?: number | undefined): AsyncIterableIterator<QueryResult<R>> {
     throw new Error("Method not implemented.");
   }
 

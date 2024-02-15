@@ -28,21 +28,21 @@ export class PartiQLDriver implements Driver {
   }
 
   async beginTransaction(
-    connection: DatabaseConnection,
-    settings: TransactionSettings
+    _connection: DatabaseConnection,
+    _settings: TransactionSettings
   ): Promise<void> {
     throw new Error("Method not implemented.");
   }
 
-  async commitTransaction(connection: DatabaseConnection): Promise<void> {
+  async commitTransaction(_connection: DatabaseConnection): Promise<void> {
     throw new Error("Method not implemented.");
   }
 
-  async rollbackTransaction(connection: DatabaseConnection): Promise<void> {
+  async rollbackTransaction(_connection: DatabaseConnection): Promise<void> {
     throw new Error("Method not implemented.");
   }
 
-  async releaseConnection(connection: DatabaseConnection): Promise<void> {
+  async releaseConnection(_connection: DatabaseConnection): Promise<void> {
     // noop
   }
 
